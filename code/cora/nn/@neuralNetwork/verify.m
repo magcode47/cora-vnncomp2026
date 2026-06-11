@@ -530,7 +530,7 @@ while size(xs,2) > 0
                 % Invalid option.
                 throw(CORAerror('CORA:wrongFieldValue', ...
                     'options.nn.refinement_method', ...
-                    {'naive','zonotack','zonotack-layerwise'}));
+                    {'naive','zonotack'}));
         end
 
         % Add new splits to the queue.

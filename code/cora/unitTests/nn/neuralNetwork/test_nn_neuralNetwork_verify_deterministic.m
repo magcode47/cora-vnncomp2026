@@ -19,7 +19,7 @@ function res = test_nn_neuralNetwork_verify_deterministic()
 
 % Authors:       Benedikt Kellner, Lukas Koller
 % Written:       12-March-2026
-% Last update:   ---
+% Last update:   11-June-2026 (BK, removed zonotack-layerwise refinement)
 % Last revision: ---
 
 % ------------------------------ BEGIN CODE -------------------------------
@@ -118,7 +118,7 @@ end
 % Test 7: All refinement methods on known-VERIFIED case
 % =========================================================================
 x = 0; r = 1; A = 1; b = 2; safeSet = true;
-refMethods = {'naive','zonotack','zonotack-layerwise'};
+refMethods = {'naive','zonotack'};
 for i = 1:length(refMethods)
     opts = options;
     opts.nn.refinement_method = refMethods{i};

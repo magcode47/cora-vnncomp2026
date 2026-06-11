@@ -22,6 +22,7 @@ function options = validateNNoptions(options,varargin)
 % Authors:       Tobias Ladner, Lukas Koller
 % Written:       29-November-2022
 % Last update:   16-February-2023 (poly_method)
+%                11-June-2026 (BK, removed zonotack-layerwise refinement)
 %                01-March-2023 (backprop)
 %                21-February-2024 (merged options.nn)
 % Last revision: ---
@@ -371,8 +372,9 @@ if CHECKS_ENABLED
     % Check neuralNetwork/verify fields.
     aux_checkFieldStr(options.nn,'falsification_method', ...
         {'center','fgsm','zonotack'},structName);
+    % 'zonotack-layerwise' was dropped from neuralNetwork/verify
     aux_checkFieldStr(options.nn,'refinement_method', ...
-        {'naive','zonotack','zonotack-layerwise'},structName);
+        {'naive','zonotack'},structName);
     % refinement iterations
     aux_checkFieldClass(options.nn,'refinement_max_iter', ...
         {'scalar&integer&positive'},structName);
