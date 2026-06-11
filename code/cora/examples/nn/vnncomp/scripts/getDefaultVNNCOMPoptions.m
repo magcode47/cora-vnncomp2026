@@ -14,7 +14,7 @@ function options = getDefaultVNNCOMPoptions(benchName)
 
 % Authors:       Benedikt Kellner, Lukas Koller
 % Written:       04-May-2026
-% Last update:   11-June-2026 (BK, reverted cifar100 to VNN-COMP'25 settings)
+% Last update:   11-June-2026 (BK, cifar100 to VNN-COMP'25 settings; tuned multi-network acasxu)
 % Last revision: ---
 
 % ------------------------------ BEGIN CODE -------------------------------
@@ -113,13 +113,14 @@ elseif strcmp(benchName_,'oval21')
     options.nn.batch_union_conzonotope_bounds = false;
 
 elseif ismember(benchName_,{'monotonic_acasxu','isomorphic_acasxu'})
-    % VNN-COMP'26 multi-network ACAS Xu benchmarks.
-    % Small composite networks (joint f+g, 5-in each); use input-radius
-    % heuristics to avoid backprop through the composite layer.
+    % VNN-COMP'26 multi-network ACAS Xu benchmarks (joint f+g, 5-in each).
+    % naive refinement clearly beats zonotack here; gradient heuristics
+    % beat input-radius despite the composite layer backprop.
     options.nn.num_splits = 2;
     options.nn.num_dimensions = 1;
     options.nn.num_neuron_splits = 0;
     options.nn.train.mini_batch_size = 2^10;
+    options.nn.refinement_method = 'naive';
 
 elseif strcmp(benchName_,'safenlp')
     options.nn.num_splits = 2;
