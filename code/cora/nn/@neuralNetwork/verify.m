@@ -37,6 +37,7 @@ function [res, x_, y_] = verify(nn, x, r, A, b, safeSet, varargin)
 %                20-January-2025 (LK, constraint zonotope splitting)
 %                07-April-2026 (LK, memory usage improvements)
 %                02-June-2026 (BK, optional input-side polytope constraints)
+%                11-June-2026 (BK, store layer inputs for heuristic gradients)
 % Last revision: ---
 
 % ------------------------------ BEGIN CODE -------------------------------
@@ -789,6 +790,10 @@ function grad = aux_updateGradients(nn,options,idxLayer,x,rG,A,b, ...
 % Update the gradient of the f-radius store in the layers of the neural
 % network. The gradients are used to optimize the approximation slope
 % as well as for splitting heuristics.
+
+% The backpropagation below requires the stored layer inputs; conv layers
+% error on the empty store otherwise (options is a local copy).
+options.nn.train.backprop = true;
 
 if computeIntervalGradient
     % Compute the gradient for interval propagation to avoid the full
