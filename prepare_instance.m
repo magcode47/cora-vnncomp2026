@@ -147,7 +147,12 @@ elseif strcmp(benchName,'cctsdb_yolo')
         sprintf("Benchmark '%s' not supported!",benchName)));
 
 elseif strcmp(benchName,'cgan')
-    % --- TODO: implement convTranspose
+    % transformer variants are not supported
+    if contains(modelName{1},'transformer')
+        throw(CORAerror('CORA:notSupported',...
+            sprintf("Model '%s' of benchmark '%s' is not " + ...
+            "supported!",modelPath,benchName)));
+    end
     nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BC');
 
 elseif strcmp(benchName,'cifar100')
