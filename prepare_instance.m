@@ -34,6 +34,7 @@ function res = prepare_instance(benchName,modelPath,vnnlibPath,varargin)
 % Written:       11-August-2025
 % Last update:   04-May-2026
 %                06-June-2026 (BK, multi-network support and v1/v2 counterexample format)
+%                11-June-2026 (BK, cersyve/malbeware/sat_relu support)
 % Last revision: ---
 
 % ------------------------------ BEGIN CODE -------------------------------
@@ -146,6 +147,10 @@ elseif strcmp(benchName,'cctsdb_yolo')
     throw(CORAerror('CORA:notSupported',...
         sprintf("Benchmark '%s' not supported!",benchName)));
 
+elseif strcmp(benchName,'cersyve')
+    nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BC', ...
+        '','dagnetwork',true);
+
 elseif strcmp(benchName,'cgan')
     % transformer variants are not supported
     if contains(modelName{1},'transformer')
@@ -186,6 +191,10 @@ elseif strcmp(benchName,'lsnc') % not supported
     throw(CORAerror('CORA:notSupported',...
         sprintf("Benchmark '%s' not supported!",benchName)));
 
+elseif strcmp(benchName,'malbeware')
+    nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BCSS');
+    permuteDims = true;
+
 elseif strcmp(benchName,'metaroom')
     nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BCSS');
     permuteDims = true;
@@ -208,6 +217,9 @@ elseif strcmp(benchName,'nn4sys')
     nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BC','BC');
 
 elseif strcmp(benchName,'safenlp')
+    nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BC');
+
+elseif strcmp(benchName,'sat_relu')
     nn = neuralNetwork.readONNXNetwork(modelPath,verbose,'BC');
 
 elseif strcmp(benchName,'tinyimagenet')

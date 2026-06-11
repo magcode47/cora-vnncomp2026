@@ -14,7 +14,7 @@ function options = getDefaultVNNCOMPoptions(benchName)
 
 % Authors:       Benedikt Kellner, Lukas Koller
 % Written:       04-May-2026
-% Last update:   ---
+% Last update:   11-June-2026 (BK, reverted cifar100 to VNN-COMP'25 settings)
 % Last revision: ---
 
 % ------------------------------ BEGIN CODE -------------------------------
@@ -70,23 +70,11 @@ if strcmp(benchName_,'cgan')
     options.nn.num_relu_constraints = 0;
 
 elseif strcmp(benchName_,'cifar100') % large image classification
-    options.nn.train.backprop = true;  % required for interval gradient (input generator heuristic)
-    options.nn.train.mini_batch_size = 8;
-    options.nn.input_split_heuristic = 'zono-norm-gradient';
-    options.nn.neuron_split_heuristic = 'least-unstable';
-    options.nn.refinement_method = 'zonotack';
-    options.nn.falsification_method = 'fgsm';
-    options.nn.num_split_dimensions = 0;
-    options.nn.num_splits = 2;
-    options.nn.num_neuron_splits = 1;
-    options.nn.input_xor_neuron_splitting = false;
-    options.nn.num_relu_constraints = 100;
-    options.nn.train.num_init_gens = 250;
-    options.nn.train.num_approx_err = 25;
-    options.nn.exact_conzonotope_bounds = false;
-    options.nn.max_verif_iter = 1000;
-    options.nn.verify_dequeue_type = 'half-half';
-    options.nn.verify_enqueue_type = 'append';
+    % VNN-COMP'25 settings; 2026 retuning lost all sat instances
+    options.nn.interval_center = true;
+    options.nn.train.num_init_gens = 500;
+    options.nn.train.num_approx_err = 100;
+    options.nn.batch_union_conzonotope_bounds = false;
 
 elseif strcmp(benchName_,'collins_rul_cnn') % VNN-COMP'24
     options.nn.interval_center = true;
