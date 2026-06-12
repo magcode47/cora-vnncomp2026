@@ -63,7 +63,11 @@ if strcmp(benchName_,'cgan')
     options.nn.num_dimensions = 1;
     options.nn.num_neuron_splits = 1;
     options.nn.train.mini_batch_size = 2^2;
-    options.nn.max_verif_iter = 100;
+    % finite approx errors: inf OOMs on a 23GB A10G and triggers the
+    % batch-halving recovery on every instance
+    options.nn.train.num_approx_err = 500;
+    % 900s instance timeouts; iteration cap 100 quit with budget left
+    options.nn.max_verif_iter = 1000;
     options.nn.neuron_split_heuristic = 'least-unstable';
     options.nn.exact_conzonotope_bounds = true;
     options.nn.verify_cascade_unsafe_set_constraints = false;
